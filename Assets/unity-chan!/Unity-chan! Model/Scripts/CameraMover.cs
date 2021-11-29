@@ -35,7 +35,7 @@ public class CameraMover : MonoBehaviour
     //UIメッセージの表示
     private bool _uiMessageActiv;
 
-    void Start ()
+    void Start()
     {
         _camTransform = this.gameObject.transform;
 
@@ -43,15 +43,15 @@ public class CameraMover : MonoBehaviour
         _initialCamRotation = this.gameObject.transform.rotation;
     }
 
-    void Update () {
-
+    void Update()
+    {
         //CamControlIsActive(); //カメラ操作の有効無効
 
         if (_cameraMoveActive)
         {
             ResetCameraRotation(); //回転角度のみリセット
             CameraRotationMouseControl(); //カメラの回転 マウス
-            CameraSlideMouseControl(); //カメラの縦横移動 マウス
+            //CameraSlideMouseControl(); //カメラの縦横移動 マウス
             //CameraPositionKeyControl(); //カメラのローカル移動 キー
         }
     }
@@ -74,7 +74,7 @@ public class CameraMover : MonoBehaviour
     //回転を初期状態にする
     private void ResetCameraRotation()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             //this.gameObject.transform.rotation = _initialCamRotation;
             //Debug.Log("Cam Rotate : " + _initialCamRotation.ToString());
