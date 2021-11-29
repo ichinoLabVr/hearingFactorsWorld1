@@ -116,10 +116,10 @@ namespace UnityChan
 				fly *= fallSpeed;	// 移動速度を掛ける
 			}
 
-			if (Input.GetButton ("Stop")) {
-				rb.useGravity = false;
-				rb.velocity = Vector3.zero;
-            }
+			// if (Input.GetButton ("Stop")) {
+			// 	rb.useGravity = false;
+			// 	rb.velocity = Vector3.zero;
+            // }
 
 			if (Input.GetButtonDown ("Jump")) {	// スペースキーを入力したら
 
@@ -133,10 +133,10 @@ namespace UnityChan
 				}
 			}
 
-			if (Input.GetButton ("Fly")) {
-				rb.useGravity = false;
-				transform.localPosition += fly * Time.fixedDeltaTime;
-			}
+			// if (Input.GetButton ("Fly")) {
+			// 	rb.useGravity = false;
+			// 	transform.localPosition += fly * Time.fixedDeltaTime;
+			// }
 
 			// 上下のキー入力でキャラクターを移動させる
 			transform.localPosition += velocity * Time.fixedDeltaTime;
