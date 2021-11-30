@@ -20,7 +20,7 @@ public class Mark : MonoBehaviourPunCallbacks
     {
         // int myId = photonView.ViewID;
         // Debug.Log(myId);
-        PhotonController = GameObject.Find ("PhotonController");
+        PhotonController = GameObject.Find("PhotonController");
         script = PhotonController.GetComponent<RandomMatchMaker>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -28,40 +28,40 @@ public class Mark : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown ("Mark")) {	// 1キーを入力したら
-            if (photonView.IsMine) {
+        if (Input.GetButtonDown("Mark"))
+        {	// 1キーを入力したら
+            if (photonView.IsMine)
+            {
                 photonView.RPC("ChangeMark", RpcTarget.All);
             }
         }
 
-        if (PhotonNetwork.IsMasterClient){
-            if (Input.GetButtonDown ("Start")) {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (Input.GetButtonDown("Start"))
+            {
                 photonView.RPC("Audiostart", RpcTarget.All);
             }
         }
     }
 
     [PunRPC]
-    private void ChangeMark() {
-        mark.SetActive (true);
-        mark1.SetActive (true);
-        mark2.SetActive (true);
+    private void ChangeMark()
+    {
         _isMark = true;
         StartCoroutine("Blink");
-        Logger logger = new Logger(System.DateTime.Now.Year.ToString()+"-"+System.DateTime.Now.Month.ToString()+"-"+System.DateTime.Now.Day.ToString()+"-"+System.DateTime.Now.Hour.ToString()+"-"+System.DateTime.Now.Minute.ToString()+"-"+System.DateTime.Now.Second.ToString()+"-"+System.DateTime.Now.Millisecond.ToString()+"-MarkLog-No"+PhotonNetwork.CurrentRoom.PlayerCount+".txt");
+        Logger logger = new Logger(System.DateTime.Now.Year.ToString() + "-" + System.DateTime.Now.Month.ToString() + "-" + System.DateTime.Now.Day.ToString() + "-" + System.DateTime.Now.Hour.ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + System.DateTime.Now.Millisecond.ToString() + "-MarkLog-No" + PhotonNetwork.CurrentRoom.PlayerCount + ".txt");
 
-        logger.Log(" : UserID="+PhotonNetwork.CurrentRoom.PlayerCount+" 1ボタンを押した");
+        logger.Log(" : UserID=" + PhotonNetwork.CurrentRoom.PlayerCount + " 1ボタンを押した");
         logger.Close();
         audioSource.Play();
     }
 
     IEnumerator Blink()
     {
-        if (_isMark) {
+        if (_isMark)
+        {
             yield return new WaitForSeconds(2.0f); //2秒待って
-            mark.SetActive (false);
-            mark1.SetActive (false);
-            mark2.SetActive (false);
         }
     }
 }
