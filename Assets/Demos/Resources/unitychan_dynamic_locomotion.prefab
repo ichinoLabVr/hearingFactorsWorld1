@@ -1429,7 +1429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSpeed: 1.5
-  lookSmoother: 3
   useCurves: 1
   useCurvesHeight: 0.5
   forwardSpeed: 5
@@ -1437,7 +1436,6 @@ MonoBehaviour:
   fallSpeed: 7
   backwardSpeed: 2
   rotateSpeed: 2
-  jumpPower: 2
 --- !u!114 &4644543400838558705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1588,9 +1586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd57acff5c79b94f903060340fe3b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mark: {fileID: 1279617021459379432}
-  mark1: {fileID: 3795934892085620167}
-  mark2: {fileID: 1399565574530193585}
   PhotonController: {fileID: 0}
   script: {fileID: 0}
 --- !u!114 &5583817315793230224
