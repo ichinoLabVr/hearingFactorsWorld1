@@ -8,12 +8,10 @@ using Photon.Realtime;
 public class Mark : MonoBehaviourPunCallbacks
 {
     private bool _isMark = false;
-    public GameObject mark;
-    public GameObject mark1;
-    public GameObject mark2;
     public GameObject PhotonController;
     public RandomMatchMaker script;
     AudioSource audioSource;
+    private Animator anim; // キャラにアタッチされるアニメーターへの参照
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +19,7 @@ public class Mark : MonoBehaviourPunCallbacks
         PhotonController = GameObject.Find("PhotonController");
         script = PhotonController.GetComponent<RandomMatchMaker>();
         audioSource = GetComponent<AudioSource>();
+        anim = GetComponent<Animator>(); // Animatorコンポーネントを取得する
     }
 
     void Update()
@@ -30,6 +29,7 @@ public class Mark : MonoBehaviourPunCallbacks
             if (photonView.IsMine)
             {
                 photonView.RPC("ChangeMark", RpcTarget.All);
+                anim.SetBool("Rest", true);
             }
         }
 
