@@ -18,14 +18,11 @@ public class Mark : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        // int myId = photonView.ViewID;
-        // Debug.Log(myId);
         PhotonController = GameObject.Find("PhotonController");
         script = PhotonController.GetComponent<RandomMatchMaker>();
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Mark"))
@@ -50,10 +47,7 @@ public class Mark : MonoBehaviourPunCallbacks
     {
         _isMark = true;
         StartCoroutine("Blink");
-        Logger logger = new Logger(System.DateTime.Now.Year.ToString() + "-" + System.DateTime.Now.Month.ToString() + "-" + System.DateTime.Now.Day.ToString() + "-" + System.DateTime.Now.Hour.ToString() + "-" + System.DateTime.Now.Minute.ToString() + "-" + System.DateTime.Now.Second.ToString() + "-" + System.DateTime.Now.Millisecond.ToString() + "-MarkLog-No" + PhotonNetwork.CurrentRoom.PlayerCount + ".txt");
-
-        logger.Log(" : UserID=" + PhotonNetwork.CurrentRoom.PlayerCount + " 1ボタンを押した");
-        logger.Close();
+        FileLog.AppendLog("log/log.txt", System.DateTime.Now.ToString() + " UserID=" + PhotonNetwork.CurrentRoom.PlayerCount + " Reaction\n");
         audioSource.Play();
     }
 
