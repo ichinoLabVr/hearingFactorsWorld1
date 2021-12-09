@@ -9278,7 +9278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67381f139d56ce841b2948a6428c6fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _positionStep: 2
   _mouseSensitive: 90
 --- !u!20 &5441612368456909743
 Camera:
