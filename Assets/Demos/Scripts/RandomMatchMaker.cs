@@ -19,7 +19,7 @@ public class RandomMatchMaker : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinRandomRoom();
         Debug.Log("接続成功 Master");
-        datetimeStr = System.DateTime.Now.Year.ToString()+System.DateTime.Now.Month.ToString()+System.DateTime.Now.Day.ToString()+System.DateTime.Now.Hour.ToString()+System.DateTime.Now.Minute.ToString()+System.DateTime.Now.Second.ToString()+"."+System.DateTime.Now.Millisecond.ToString();
+        datetimeStr = System.DateTime.Now.Year.ToString() + System.DateTime.Now.Month.ToString() + System.DateTime.Now.Day.ToString() + System.DateTime.Now.Hour.ToString() + System.DateTime.Now.Minute.ToString() + System.DateTime.Now.Second.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
     }
 
     public override void OnJoinedLobby()
@@ -39,7 +39,7 @@ public class RandomMatchMaker : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.Instantiate(
-        PhotonObject.name,new Vector3(Random.Range(0,6), 0f, Random.Range(-8,8)),Quaternion.identity,0);
+        PhotonObject.name, new Vector3(Random.Range(-6, 6), 0f, Random.Range(-8, 8)), Quaternion.identity, 0);
         GameObject mainCamera = GameObject.FindWithTag("MainCamera");
         mainCamera.GetComponent<UnityChan.ThirdPersonCamera>().enabled = true;
     }
