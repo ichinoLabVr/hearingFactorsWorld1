@@ -13,6 +13,7 @@ TagManager:
   - BodyUp1
   - BodyUp2
   - BodyUp3
+  - onoffswitch
   layers:
   - Default
   - TransparentFX
