@@ -288,7 +288,7 @@ namespace Photon.Pun
                 EditorGUILayout.HelpBox("When using triggers, make sure this component is last in the stack. " +
                                 "If you still experience issues, implement triggers as a regular RPC " +
                                 "or in custom IPunObservable component instead.", MessageType.Warning);
-               
+
             }
         }
     }

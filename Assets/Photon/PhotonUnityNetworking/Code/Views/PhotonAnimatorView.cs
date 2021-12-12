@@ -76,9 +76,9 @@ namespace Photon.Pun
 
         #region Properties
 
-        #if PHOTON_DEVELOP
+#if PHOTON_DEVELOP
         public PhotonAnimatorView ReceivingSender;
-        #endif
+#endif
 
         #endregion
 
@@ -93,7 +93,7 @@ namespace Photon.Pun
 
         //These fields are only used in the CustomEditor for this script and would trigger a
         //"this variable is never used" warning, which I am suppressing here
-        #pragma warning disable 0414
+#pragma warning disable 0414
 
         [HideInInspector]
         [SerializeField]
@@ -103,7 +103,7 @@ namespace Photon.Pun
         [SerializeField]
         private bool ShowParameterInspector = true;
 
-        #pragma warning restore 0414
+#pragma warning restore 0414
 
         [HideInInspector]
         [SerializeField]
@@ -133,46 +133,58 @@ namespace Photon.Pun
             this.m_Animator = GetComponent<Animator>();
             var videoPlayer = GetComponent<VideoPlayer>();
             var firstgameObject = GameObject.Find("Speaker1");
-            var secondgameObject = GameObject.Find("Speaker" + ((((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8) - 1));
+            var secondgameObject = GameObject.Find("Speaker" + ((((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8) - 1));
+            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "人");
             //(((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8) - 1)
             //1列：7 8
             //2列：15 16
 
-            if (firstgameObject==null){
+            if (firstgameObject == null)
+            {
                 Generationspeaker(8);
-            }else if (secondgameObject==null){
-                Generationspeaker((((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8));
+            }
+            else if (secondgameObject == null)
+            {
+                Generationspeaker((((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8));
             }
         }
 
-        public void Generationspeaker(int collum){
+        public void Generationspeaker(int collum)
+        {
             //プレーヤーが増えたときにスピーカーを増やす
             // 列 × 出現させるスピーカー数(8個)
-            Sobj = new GameObject[((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8];
+            Sobj = new GameObject[((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8];
             obj = (GameObject)Resources.Load("Speaker");
 
             //スピーカー生成
-            for(int i = (collum/8)-1; i < (PhotonNetwork.CurrentRoom.PlayerCount/8)+1; i++){
-                for(int j = 0; j < 8 ; j++){
-                    if(i%2==0){
-                        Sobj[(i*8) + j] = Instantiate(obj, new Vector3(-5.0f+i,ObjY,-4.3f+j*1.3f), Quaternion.identity);
-                        Sobj[(i*8) + j].name = "Speaker" + ((i*8) + j);
+            for (int i = (collum / 8) - 1; i < (PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        Sobj[(i * 8) + j] = Instantiate(obj, new Vector3(-5.0f + i, ObjY, -4.3f + j * 1.3f), Quaternion.identity);
+                        Sobj[(i * 8) + j].name = "Speaker" + ((i * 8) + j);
                     }
-                    else if(i%2==1){
-                        Sobj[(i*8) + j] = Instantiate(obj, new Vector3(-5.0f+i,1.0f,-4.9f+j*1.3f), Quaternion.identity);
-                        Sobj[(i*8) + j].name = "Speaker" + ((i*8) + j);
+                    else if (i % 2 == 1)
+                    {
+                        Sobj[(i * 8) + j] = Instantiate(obj, new Vector3(-5.0f + i, 1.0f, -4.9f + j * 1.3f), Quaternion.identity);
+                        Sobj[(i * 8) + j].name = "Speaker" + ((i * 8) + j);
                     }
                 }
             }
         }
 
         [PunRPC]
-        public void Audiostart(){
-            if (photonView.IsMine){
+        public void Audiostart()
+        {
+            if (photonView.IsMine)
+            {
                 //スピーカー再生
                 GameObject PanelPlayer = GameObject.Find("panel");
                 var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
-                foreach(GameObject i in Sobj){
+                foreach (GameObject i in Sobj)
+                {
                     var audioSource = i.GetComponent<AudioSource>();
                     audioSource.time = 0f;
                     audioSource.Play();
@@ -321,7 +333,7 @@ namespace Photon.Pun
 
             if (index == -1)
             {
-                this.m_SynchronizeLayers.Add(new SynchronizedLayer {LayerIndex = layerIndex, SynchronizeType = synchronizeType});
+                this.m_SynchronizeLayers.Add(new SynchronizedLayer { LayerIndex = layerIndex, SynchronizeType = synchronizeType });
             }
             else
             {
@@ -346,7 +358,7 @@ namespace Photon.Pun
 
             if (index == -1)
             {
-                this.m_SynchronizeParameters.Add(new SynchronizedParameter {Name = name, Type = type, SynchronizeType = synchronizeType});
+                this.m_SynchronizeParameters.Add(new SynchronizedParameter { Name = name, Type = type, SynchronizeType = synchronizeType });
             }
             else
             {
@@ -397,7 +409,7 @@ namespace Photon.Pun
                                 TriggerUsageWarningDone = true;
                                 Debug.Log("PhotonAnimatorView: When using triggers, make sure this component is last in the stack.\n" +
                                           "If you still experience issues, implement triggers as a regular RPC \n" +
-                                          "or in custom IPunObservable component instead",this);
+                                          "or in custom IPunObservable component instead", this);
 
                             }
                             this.m_StreamQueue.SendNext(this.m_Animator.GetBool(parameter.Name));
@@ -419,7 +431,7 @@ namespace Photon.Pun
             {
                 if (this.m_SynchronizeLayers[i].SynchronizeType == SynchronizeType.Continuous)
                 {
-                    this.m_Animator.SetLayerWeight(this.m_SynchronizeLayers[i].LayerIndex, (float) this.m_StreamQueue.ReceiveNext());
+                    this.m_Animator.SetLayerWeight(this.m_SynchronizeLayers[i].LayerIndex, (float)this.m_StreamQueue.ReceiveNext());
                 }
             }
 
@@ -432,16 +444,16 @@ namespace Photon.Pun
                     switch (parameter.Type)
                     {
                         case ParameterType.Bool:
-                            this.m_Animator.SetBool(parameter.Name, (bool) this.m_StreamQueue.ReceiveNext());
+                            this.m_Animator.SetBool(parameter.Name, (bool)this.m_StreamQueue.ReceiveNext());
                             break;
                         case ParameterType.Float:
-                            this.m_Animator.SetFloat(parameter.Name, (float) this.m_StreamQueue.ReceiveNext());
+                            this.m_Animator.SetFloat(parameter.Name, (float)this.m_StreamQueue.ReceiveNext());
                             break;
                         case ParameterType.Int:
-                            this.m_Animator.SetInteger(parameter.Name, (int) this.m_StreamQueue.ReceiveNext());
+                            this.m_Animator.SetInteger(parameter.Name, (int)this.m_StreamQueue.ReceiveNext());
                             break;
                         case ParameterType.Trigger:
-                            this.m_Animator.SetBool(parameter.Name, (bool) this.m_StreamQueue.ReceiveNext());
+                            this.m_Animator.SetBool(parameter.Name, (bool)this.m_StreamQueue.ReceiveNext());
                             break;
                     }
                 }
@@ -482,7 +494,7 @@ namespace Photon.Pun
                                 TriggerUsageWarningDone = true;
                                 Debug.Log("PhotonAnimatorView: When using triggers, make sure this component is last in the stack.\n" +
                                           "If you still experience issues, implement triggers as a regular RPC \n" +
-                                          "or in custom IPunObservable component instead",this);
+                                          "or in custom IPunObservable component instead", this);
 
                             }
                             // here we can't rely on the current real state of the trigger, we might have missed its raise
@@ -502,7 +514,7 @@ namespace Photon.Pun
             {
                 if (this.m_SynchronizeLayers[i].SynchronizeType == SynchronizeType.Discrete)
                 {
-                    this.m_Animator.SetLayerWeight(this.m_SynchronizeLayers[i].LayerIndex, (float) stream.ReceiveNext());
+                    this.m_Animator.SetLayerWeight(this.m_SynchronizeLayers[i].LayerIndex, (float)stream.ReceiveNext());
                 }
             }
 
@@ -519,7 +531,7 @@ namespace Photon.Pun
                             {
                                 return;
                             }
-                            this.m_Animator.SetBool(parameter.Name, (bool) stream.ReceiveNext());
+                            this.m_Animator.SetBool(parameter.Name, (bool)stream.ReceiveNext());
                             break;
                         case ParameterType.Float:
                             if (stream.PeekNext() is float == false)
@@ -527,7 +539,7 @@ namespace Photon.Pun
                                 return;
                             }
 
-                            this.m_Animator.SetFloat(parameter.Name, (float) stream.ReceiveNext());
+                            this.m_Animator.SetFloat(parameter.Name, (float)stream.ReceiveNext());
                             break;
                         case ParameterType.Int:
                             if (stream.PeekNext() is int == false)
@@ -535,7 +547,7 @@ namespace Photon.Pun
                                 return;
                             }
 
-                            this.m_Animator.SetInteger(parameter.Name, (int) stream.ReceiveNext());
+                            this.m_Animator.SetInteger(parameter.Name, (int)stream.ReceiveNext());
                             break;
                         case ParameterType.Trigger:
                             if (stream.PeekNext() is bool == false)
@@ -543,7 +555,7 @@ namespace Photon.Pun
                                 return;
                             }
 
-                            if ((bool) stream.ReceiveNext())
+                            if ((bool)stream.ReceiveNext())
                             {
                                 this.m_Animator.SetTrigger(parameter.Name);
                             }
@@ -559,12 +571,12 @@ namespace Photon.Pun
 
             for (int i = 0; i < this.m_SynchronizeLayers.Count; ++i)
             {
-                states[i] = (byte) this.m_SynchronizeLayers[i].SynchronizeType;
+                states[i] = (byte)this.m_SynchronizeLayers[i].SynchronizeType;
             }
 
             for (int i = 0; i < this.m_SynchronizeParameters.Count; ++i)
             {
-                states[this.m_SynchronizeLayers.Count + i] = (byte) this.m_SynchronizeParameters[i].SynchronizeType;
+                states[this.m_SynchronizeLayers.Count + i] = (byte)this.m_SynchronizeParameters[i].SynchronizeType;
             }
 
             stream.SendNext(states);
@@ -572,16 +584,16 @@ namespace Photon.Pun
 
         private void DeserializeSynchronizationTypeState(PhotonStream stream)
         {
-            byte[] state = (byte[]) stream.ReceiveNext();
+            byte[] state = (byte[])stream.ReceiveNext();
 
             for (int i = 0; i < this.m_SynchronizeLayers.Count; ++i)
             {
-                this.m_SynchronizeLayers[i].SynchronizeType = (SynchronizeType) state[i];
+                this.m_SynchronizeLayers[i].SynchronizeType = (SynchronizeType)state[i];
             }
 
             for (int i = 0; i < this.m_SynchronizeParameters.Count; ++i)
             {
-                this.m_SynchronizeParameters[i].SynchronizeType = (SynchronizeType) state[this.m_SynchronizeLayers.Count + i];
+                this.m_SynchronizeParameters[i].SynchronizeType = (SynchronizeType)state[this.m_SynchronizeLayers.Count + i];
             }
         }
 
@@ -607,13 +619,13 @@ namespace Photon.Pun
             }
             else
             {
-                #if PHOTON_DEVELOP
+#if PHOTON_DEVELOP
                 if( ReceivingSender != null )
                 {
                     ReceivingSender.OnPhotonSerializeView( stream, info );
                 }
                 else
-                #endif
+#endif
                 {
                     if (stream.PeekNext() is byte[])
                     {

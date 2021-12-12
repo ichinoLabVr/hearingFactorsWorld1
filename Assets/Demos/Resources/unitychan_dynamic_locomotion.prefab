@@ -1201,6 +1201,8 @@ GameObject:
   - component: {fileID: 2193858684000377424}
   - component: {fileID: 5583817315793230224}
   - component: {fileID: -972588873881134272}
+  - component: {fileID: -749174759689288664}
+  - component: {fileID: 4451731642876778065}
   m_Layer: 0
   m_Name: unitychan_dynamic_locomotion
   m_TagString: Player
@@ -1396,7 +1398,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
@@ -1697,6 +1699,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-749174759689288664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644543400831452845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fb712e1f633cf419e9b9ac13db9654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objName: 
+  muteList: []
+--- !u!168 &4451731642876778065
+AudioEchoFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644543400831452845}
+  m_Enabled: 1
+  m_Delay: 500
+  m_DecayRatio: 0.5
+  m_WetMix: 1
+  m_DryMix: 1
 --- !u!1 &4644543400831452847
 GameObject:
   m_ObjectHideFlags: 0
@@ -9278,7 +9306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67381f139d56ce841b2948a6428c6fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _positionStep: 2
   _mouseSensitive: 90
 --- !u!20 &5441612368456909743
 Camera:
@@ -9299,10 +9326,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.5
     y: 0
-    width: 1
-    height: 1
+    width: 0.5
+    height: 0.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -9314,7 +9341,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 7
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1

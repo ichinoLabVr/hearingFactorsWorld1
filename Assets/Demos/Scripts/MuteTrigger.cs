@@ -8,52 +8,57 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
 {
     AudioSource audioSource;
     private bool _isStageChange = false;
-    int num = 0;
+    bool num = false;
     public string objName;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        foreach (var player in PhotonNetwork.PlayerList) {
-            //Debug.Log($"{player.NickName}({player.ActorNumber})");
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_isStageChange && num == 1){
-            if (!photonView.IsMine) {//範囲に入ったからミュートにする
+        if (_isStageChange && num == true)
+        {
+            if (!photonView.IsMine)
+            {//範囲に入ったからミュートにする
                 GameObject SpeakerSound = GameObject.Find(objName);
                 audioSource = SpeakerSound.GetComponent<AudioSource>();
-                audioSource.mute = !audioSource.mute;
+                audioSource.mute = true;
 
-                num = 0;
+                num = false;
             }
         }
 
-        if(!_isStageChange && num == 0) {
-            if (!photonView.IsMine) {//範囲を出たからミュート解除する
-                try{
+        if (!_isStageChange && num == false)
+        {
+            if (!photonView.IsMine)
+            {
+                try
+                {
+                    //範囲を出たからミュート解除する
                     GameObject SpeakerSound = GameObject.Find(objName);
                     audioSource = SpeakerSound.GetComponent<AudioSource>();
-                    audioSource.mute = !audioSource.mute;
-                }catch{
+                    audioSource.mute = false;
+                }
+                catch
+                {
                     ;
                 }
-
-                num = 1;
+                num = true;
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Speaker"){
-            if (!photonView.IsMine) {
+        if (other.gameObject.tag == "onoffswitch")
+        {
+            if (!photonView.IsMine)
+            {
                 _isStageChange = true;
-                objName = other.gameObject.name;
+                objName = other.transform.root.gameObject.name;
             }
         }
     }
@@ -61,10 +66,12 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
     private void OnTriggerExit(Collider other)
     {
         //離れたオブジェクトのタグが"Player"のとき
-        if(other.gameObject.tag == "Speaker"){
-            if (!photonView.IsMine) {
+        if (other.gameObject.tag == "onoffswitch")
+        {
+            if (!photonView.IsMine)
+            {
                 _isStageChange = false;
-                objName = other.gameObject.name;
+                objName = other.transform.root.gameObject.name;
             }
         }
     }
