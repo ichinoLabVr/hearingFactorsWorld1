@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6978660146478703527}
   - component: {fileID: 5814215532706974885}
   - component: {fileID: 8866807971014372034}
+  - component: {fileID: 2034272950101905207}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Speaker
@@ -202,6 +203,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!168 &2034272950101905207
+AudioEchoFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257269028622116495}
+  m_Enabled: 0
+  m_Delay: 300
+  m_DecayRatio: 0.5
+  m_WetMix: 1
+  m_DryMix: 1
 --- !u!1 &1774006172614611883
 GameObject:
   m_ObjectHideFlags: 0

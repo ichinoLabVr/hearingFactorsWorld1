@@ -1202,6 +1202,7 @@ GameObject:
   - component: {fileID: 5583817315793230224}
   - component: {fileID: -972588873881134272}
   - component: {fileID: -749174759689288664}
+  - component: {fileID: 4451731642876778065}
   m_Layer: 0
   m_Name: unitychan_dynamic_locomotion
   m_TagString: Player
@@ -1712,6 +1713,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objName: 
   muteList: []
+--- !u!168 &4451731642876778065
+AudioEchoFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644543400831452845}
+  m_Enabled: 1
+  m_Delay: 500
+  m_DecayRatio: 0.5
+  m_WetMix: 1
+  m_DryMix: 1
 --- !u!1 &4644543400831452847
 GameObject:
   m_ObjectHideFlags: 0

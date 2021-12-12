@@ -9,6 +9,7 @@ public class onoffswitch : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     AudioSource audioSource;
     GameObject[] SpeakerSound;
+    AudioEchoFilter _echo;
     private bool _isStageChange = false;
     bool onof = false;
     public string objName;
@@ -30,7 +31,9 @@ public class onoffswitch : MonoBehaviourPunCallbacks
                 muteList.Clear();
                 foreach (GameObject SpeakerSounds in SpeakerSound)
                 {
+                    _echo = SpeakerSounds.GetComponent<AudioEchoFilter>();
                     audioSource = SpeakerSounds.GetComponent<AudioSource>();
+                    _echo.enabled = false;
                     if (audioSource.mute)
                     {
                         muteList.Add(SpeakerSounds.name);
@@ -45,20 +48,21 @@ public class onoffswitch : MonoBehaviourPunCallbacks
             }
         }
 
-        if (!_isStageChange)
+        if (!_isStageChange && onof == false)
         {
             if (photonView.IsMine)
             {
-
                 //範囲を出たからミュート解除する
-
                 foreach (GameObject SpeakerSounds in SpeakerSound)
                 {
-
                     if (photonView.IsMine)
                     {
                         audioSource = SpeakerSounds.GetComponent<AudioSource>();
                         audioSource.mute = false;
+
+                        //スピーカーから離れたとき聞こえにくくする処理
+                        _echo = SpeakerSounds.GetComponent<AudioEchoFilter>();
+                        _echo.enabled = true;
                     }
                     foreach (string muteLists in muteList)
                     {
@@ -68,6 +72,7 @@ public class onoffswitch : MonoBehaviourPunCallbacks
                         }
                     }
                 }
+                Debug.Log("a");
 
                 onof = true;
             }
