@@ -72,7 +72,6 @@ public class onoffswitch : MonoBehaviourPunCallbacks
                         }
                     }
                 }
-                Debug.Log("a");
 
                 onof = true;
             }
