@@ -31,12 +31,6 @@ namespace Photon.Pun
     public class PhotonAnimatorView : MonoBehaviourPun, IPunObservable
     {
         #region Enums
-        VideoPlayer videoPlayer;
-        AudioSource audioSource;
-        GameObject targetObj;
-        GameObject obj;
-        GameObject[] Sobj;
-        float ObjY = 1.0f; //スピーカー高さ
 
         public enum ParameterType
         {
@@ -131,69 +125,7 @@ namespace Photon.Pun
         private void Awake()
         {
             this.m_Animator = GetComponent<Animator>();
-            var videoPlayer = GetComponent<VideoPlayer>();
-            var firstgameObject = GameObject.Find("Speaker1");
-            var secondgameObject = GameObject.Find("Speaker" + ((((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8) - 1));
-            //(((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8) - 1)
-            //1列：7 8
-            //2列：15 16
-
-            if (firstgameObject == null)
-            {
-                Generationspeaker(8);
-            }
-            else if (secondgameObject == null)
-            {
-                Generationspeaker((((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8));
-            }
         }
-
-        public void Generationspeaker(int collum)
-        {
-            //プレーヤーが増えたときにスピーカーを増やす
-            // 列 × 出現させるスピーカー数(8個)
-            Sobj = new GameObject[((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8];
-            obj = (GameObject)Resources.Load("Speaker");
-
-            //スピーカー生成
-            for (int i = (collum / 8) - 1; i < (PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (i % 2 == 0)
-                    {
-                        Sobj[(i * 8) + j] = Instantiate(obj, new Vector3(-5.0f + i, ObjY, -4.3f + j * 1.3f), Quaternion.identity);
-                        Sobj[(i * 8) + j].name = "Speaker" + ((i * 8) + j);
-                    }
-                    else if (i % 2 == 1)
-                    {
-                        Sobj[(i * 8) + j] = Instantiate(obj, new Vector3(-5.0f + i, 1.0f, -4.9f + j * 1.3f), Quaternion.identity);
-                        Sobj[(i * 8) + j].name = "Speaker" + ((i * 8) + j);
-                    }
-                }
-            }
-        }
-
-        [PunRPC]
-        public void Audiostart()
-        {
-            if (photonView.IsMine)
-            {
-                //スピーカー再生
-                GameObject PanelPlayer = GameObject.Find("panel");
-                var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
-                foreach (GameObject i in Sobj)
-                {
-                    var audioSource = i.GetComponent<AudioSource>();
-                    audioSource.time = 0f;
-                    audioSource.Play();
-                }
-                //動画再生
-                videoPlayer.time = 0f;
-                videoPlayer.Play();
-            }
-        }
-
         private void Update()
         {
             if (this.m_Animator.applyRootMotion && this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
