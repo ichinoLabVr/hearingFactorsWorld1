@@ -134,7 +134,6 @@ namespace Photon.Pun
             var videoPlayer = GetComponent<VideoPlayer>();
             var firstgameObject = GameObject.Find("Speaker1");
             var secondgameObject = GameObject.Find("Speaker" + ((((PhotonNetwork.CurrentRoom.PlayerCount / 8) + 1) * 8) - 1));
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "人");
             //(((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8) - 1)
             //1列：7 8
             //2列：15 16
