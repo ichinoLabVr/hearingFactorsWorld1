@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.Video;
+using UnityEngine.Audio;
 
 //visualFactorsWorld1
 public class Mark : MonoBehaviourPunCallbacks
@@ -11,6 +13,8 @@ public class Mark : MonoBehaviourPunCallbacks
     public GameObject PhotonController;
     public RandomMatchMaker script;
     AudioSource audioSource;
+    VideoPlayer videoPlayer;
+    CreateSP SP;
     private Animator anim; // キャラにアタッチされるアニメーターへの参照
 
     // Start is called before the first frame update
@@ -18,7 +22,6 @@ public class Mark : MonoBehaviourPunCallbacks
     {
         PhotonController = GameObject.Find("PhotonController");
         script = PhotonController.GetComponent<RandomMatchMaker>();
-        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>(); // Animatorコンポーネントを取得する
     }
 
@@ -41,6 +44,28 @@ public class Mark : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    [PunRPC]
+    public void Audiostart()
+    {
+        if (photonView.IsMine)
+        {
+            //スピーカー再生
+            GameObject PanelPlayer = GameObject.Find("panel");
+            SP = PanelPlayer.GetComponent<CreateSP>();
+            var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
+            foreach (GameObject i in SP.Sobj)
+            {
+                var audioSource = i.GetComponent<AudioSource>();
+                audioSource.time = 0f;
+                audioSource.Play();
+            }
+            //動画再生
+            videoPlayer.time = 0f;
+            videoPlayer.Play();
+        }
+    }
+
 
     [PunRPC]
     private void ChangeMark()
