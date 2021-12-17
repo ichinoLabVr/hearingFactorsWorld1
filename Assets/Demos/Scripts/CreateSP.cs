@@ -9,16 +9,15 @@ using System;
 public class CreateSP : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
-    AudioSource audioSource;
-    GameObject obj;
+    public GameObject obj;
     public GameObject[] Sobj;
     float ObjY = 1.0f; //SPの高さ
-    int RoomNum;
+    public int RoomNum;
     public override void OnJoinedRoom()
     {
         //リソースのSPを指定
         obj = (GameObject)Resources.Load("Speaker");
-        RoomNum = PhotonNetwork.CurrentRoom.PlayerCount;
+        RoomNum = 2;
         Debug.Log("現在 " + RoomNum + "名");
 
         //作成するSPの数を配列で指定

@@ -31,6 +31,15 @@ namespace Photon.Pun
     public class PhotonAnimatorView : MonoBehaviourPun, IPunObservable
     {
         #region Enums
+        VideoPlayer videoPlayer;
+        GameObject Panel;
+        GameObject noize;
+        GameObject[] Speaker;
+        GameObject[] SpeakerEcho;
+
+        AudioSource panelaudioSource;
+        AudioSource audioSource;
+        AudioSource noizeaudioSource;
 
         public enum ParameterType
         {
@@ -125,7 +134,42 @@ namespace Photon.Pun
         private void Awake()
         {
             this.m_Animator = GetComponent<Animator>();
+            Panel = GameObject.Find("panel");
+            //(((PhotonNetwork.CurrentRoom.PlayerCount/8)+1)*8) - 1)
+            //1列：7 8
+            //2列：15 16
+
         }
+
+        [PunRPC]
+        public void Audiostart()
+        {
+            if (photonView.IsMine)
+            {
+                Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+                SpeakerEcho = GameObject.FindGameObjectsWithTag("SpeakerEcho");
+                var videoPlayer = Panel.GetComponent<VideoPlayer>();
+                foreach (GameObject Speakers in Speaker)
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.time = 0f;
+                    audioSource.Play();
+                }
+                foreach (GameObject SpeakerEcho in SpeakerEcho)
+                {
+                    audioSource = SpeakerEcho.GetComponent<AudioSource>();
+                    audioSource.time = 1f;
+                    audioSource.Play();
+                }
+
+                //動画再生
+                videoPlayer.time = 0f;
+                videoPlayer.Play();
+
+
+            }
+        }
+
         private void Update()
         {
             if (this.m_Animator.applyRootMotion && this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
