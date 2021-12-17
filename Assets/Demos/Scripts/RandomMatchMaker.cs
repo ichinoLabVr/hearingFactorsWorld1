@@ -39,7 +39,7 @@ public class RandomMatchMaker : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.Instantiate(
-        PhotonObject.name, new Vector3(Random.Range(-6, 6), 0f, Random.Range(-8, 8)), Quaternion.identity, 0);
+        PhotonObject.name, new Vector3(3f, 0f, 0f), Quaternion.identity, 0);
         GameObject mainCamera = GameObject.FindWithTag("MainCamera");
         mainCamera.GetComponent<UnityChan.ThirdPersonCamera>().enabled = true;
     }
