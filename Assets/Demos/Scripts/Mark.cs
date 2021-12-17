@@ -12,7 +12,9 @@ public class Mark : MonoBehaviourPunCallbacks
     private bool _isMark = false;
     public GameObject PhotonController;
     public RandomMatchMaker script;
+    GameObject PanelPlayer;
     AudioSource audioSource;
+    AudioSource kanseiauidoSource;
     VideoPlayer videoPlayer;
     CreateSP SP;
     private Animator anim; // キャラにアタッチされるアニメーターへの参照
@@ -21,7 +23,9 @@ public class Mark : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonController = GameObject.Find("PhotonController");
+        PanelPlayer = GameObject.Find("panel");
         script = PhotonController.GetComponent<RandomMatchMaker>();
+        var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
         anim = GetComponent<Animator>(); // Animatorコンポーネントを取得する
     }
 
@@ -51,9 +55,7 @@ public class Mark : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             //スピーカー再生
-            GameObject PanelPlayer = GameObject.Find("panel");
             SP = PanelPlayer.GetComponent<CreateSP>();
-            var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
             foreach (GameObject i in SP.Sobj)
             {
                 var audioSource = i.GetComponent<AudioSource>();
@@ -73,7 +75,9 @@ public class Mark : MonoBehaviourPunCallbacks
         _isMark = true;
         StartCoroutine("Blink");
         FileLog.AppendLog("log/log.txt", System.DateTime.Now.ToString() + " UserID=" + PhotonNetwork.CurrentRoom.PlayerCount + " Reaction\n");
-        audioSource.Play();
+
+        var kanseiauidoSource = this.GetComponent<AudioSource>();
+        kanseiauidoSource.Play();
     }
 
     IEnumerator Blink()

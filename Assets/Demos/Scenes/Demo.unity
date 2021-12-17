@@ -5402,6 +5402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7286fa106a927c54288b11c7a2f73bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sobj: []
 --- !u!4 &4555930020547341460
 Transform:
   m_ObjectHideFlags: 0
@@ -5499,7 +5500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f569a7b2d0c1ed47810f1fd78d73b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relativePath: Sakana-Live.mp4
+  relativePath: kimini.mp4
 --- !u!114 &4555930020719532931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5512,6 +5513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7286fa106a927c54288b11c7a2f73bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sobj: []
 --- !u!23 &4555930020719532932
 MeshRenderer:
   m_ObjectHideFlags: 0
