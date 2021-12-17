@@ -25,7 +25,6 @@ public class Mark : MonoBehaviourPunCallbacks
         PhotonController = GameObject.Find("PhotonController");
         PanelPlayer = GameObject.Find("panel");
         script = PhotonController.GetComponent<RandomMatchMaker>();
-        var videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
         anim = GetComponent<Animator>(); // Animatorコンポーネントを取得する
     }
 
@@ -56,6 +55,7 @@ public class Mark : MonoBehaviourPunCallbacks
         {
             //スピーカー再生
             SP = PanelPlayer.GetComponent<CreateSP>();
+            videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
             foreach (GameObject i in SP.Sobj)
             {
                 var audioSource = i.GetComponent<AudioSource>();
