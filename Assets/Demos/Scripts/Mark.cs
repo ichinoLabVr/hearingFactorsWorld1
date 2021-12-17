@@ -3,28 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.Video;
-using UnityEngine.Audio;
 
 //visualFactorsWorld1
 public class Mark : MonoBehaviourPunCallbacks
 {
     private bool _isMark = false;
-    public GameObject PhotonController;
-    public RandomMatchMaker script;
-    GameObject PanelPlayer;
-    AudioSource audioSource;
-    AudioSource kanseiauidoSource;
-    VideoPlayer videoPlayer;
-    CreateSP SP;
+    public AudioSource audioSource;
     private Animator anim; // キャラにアタッチされるアニメーターへの参照
 
     // Start is called before the first frame update
     void Start()
     {
-        PhotonController = GameObject.Find("PhotonController");
-        PanelPlayer = GameObject.Find("panel");
-        script = PhotonController.GetComponent<RandomMatchMaker>();
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>(); // Animatorコンポーネントを取得する
     }
 
@@ -38,6 +28,17 @@ public class Mark : MonoBehaviourPunCallbacks
                 anim.SetBool("Rest", true);
             }
         }
+        if (Input.GetButtonDown("Master"))
+        {	// 9キーを入力したら
+            if (photonView.IsMine)
+            {
+                PhotonNetwork.SetMasterClient(photonView.Owner);
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    Debug.Log("Master Clientになりました");
+                }
+            }
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -49,35 +50,12 @@ public class Mark : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void Audiostart()
-    {
-        if (photonView.IsMine)
-        {
-            //スピーカー再生
-            SP = PanelPlayer.GetComponent<CreateSP>();
-            videoPlayer = PanelPlayer.GetComponent<VideoPlayer>();
-            foreach (GameObject i in SP.Sobj)
-            {
-                var audioSource = i.GetComponent<AudioSource>();
-                audioSource.time = 0f;
-                audioSource.Play();
-            }
-            //動画再生
-            videoPlayer.time = 0f;
-            videoPlayer.Play();
-        }
-    }
-
-
-    [PunRPC]
     private void ChangeMark()
     {
         _isMark = true;
         StartCoroutine("Blink");
-        FileLog.AppendLog("log/log.txt", System.DateTime.Now.ToString() + " UserID=" + PhotonNetwork.CurrentRoom.PlayerCount + " Reaction\n");
-
-        var kanseiauidoSource = this.GetComponent<AudioSource>();
-        kanseiauidoSource.Play();
+        FileLog.AppendLog("log/log.txt", System.DateTime.Now.ToString() + " UserID=" + photonView.OwnerActorNr + " Reaction\n");
+        audioSource.Play();
     }
 
     IEnumerator Blink()

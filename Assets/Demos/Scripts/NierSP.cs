@@ -12,12 +12,14 @@ public class NierSP : MonoBehaviourPunCallbacks
     public float speed;
     public Rigidbody rb;
     private GameObject[] targets;
+    GameObject[] Speaker;
+    GameObject[] SpeakerMute;
     GameObject nierobj;
     Transform unitychanpos;
     Transform targetpos;
     Vector3 tarpos;
     Vector3 unipos;
-    GameObject noisecube;
+    GameObject[] SpeakerEcho;
     Transform tf;
     AudioSource audioSource;
     public float span = 15f;
@@ -27,12 +29,11 @@ public class NierSP : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        noisecube = transform.Find("NoiseCube").gameObject;
-        tf = noisecube.GetComponent<Transform>();
-        audioSource = noisecube.GetComponent<AudioSource>();
+
     }
-    GameObject nier()
+    public GameObject nier()
     {
+
         targets = GameObject.FindGameObjectsWithTag("Speaker");
         float closeDist = 1000;
         foreach (GameObject t in targets)
@@ -74,6 +75,36 @@ public class NierSP : MonoBehaviourPunCallbacks
         {
             currentTime = 0f;
             Nierlog();
+        }
+
+        Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+        SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
+
+        foreach (GameObject Speakers in Speaker)
+        {
+            if (Speakers.name != nierobj.name)
+            {
+                audioSource = Speakers.GetComponent<AudioSource>();
+                audioSource.mute = true;
+            }
+            else
+            {
+                audioSource = nierobj.GetComponent<AudioSource>();
+                audioSource.mute = false;
+            }
+        }
+        foreach (GameObject Speakers in SpeakerMute)
+        {
+            if (Speakers.name != nierobj.name)
+            {
+                audioSource = Speakers.GetComponent<AudioSource>();
+                audioSource.mute = true;
+            }
+            else
+            {
+                audioSource = nierobj.GetComponent<AudioSource>();
+                audioSource.mute = false;
+            }
         }
     }
 }

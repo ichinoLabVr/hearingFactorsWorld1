@@ -6,73 +6,93 @@ using Photon.Realtime;
 
 public class MuteTrigger : MonoBehaviourPunCallbacks
 {
+    GameObject Echo;
+    GameObject Echoloop;
+    GameObject nierobj;
+    GameObject[] Speaker;
+    GameObject[] SpeakerMute;
     AudioSource audioSource;
-    private bool _isStageChange = false;
-    bool num = false;
-    public string objName;
-
-    // Start is called before the first frame update
-    void Start()
+    GameObject nierroot;
+    bool EchoSwitch = true;
+    private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        nierobj = this.GetComponent<NierSP>().nier();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (_isStageChange && num == true)
-        {
-            if (!photonView.IsMine)
-            {//範囲に入ったからミュートにする
-                GameObject SpeakerSound = GameObject.Find(objName);
-                audioSource = SpeakerSound.GetComponent<AudioSource>();
-                audioSource.mute = true;
+        nierobj = this.GetComponent<NierSP>().nier();
+        Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+        SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
 
-                num = false;
+        foreach (GameObject Speakers in Speaker)
+        {
+            if (nierobj.name == Speakers.name && EchoSwitch)
+            {
+                Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                audioSource = Echoloop.GetComponent<AudioSource>();
+                audioSource.mute = false;
+            }
+            else
+            {
+                Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                audioSource = Echoloop.GetComponent<AudioSource>();
+                audioSource.mute = true;
             }
         }
-
-        if (!_isStageChange && num == false)
+        foreach (GameObject Speakers in SpeakerMute)
         {
-            if (!photonView.IsMine)
+            if (nierobj.name == Speakers.name && EchoSwitch)
             {
-                try
-                {
-                    //範囲を出たからミュート解除する
-                    GameObject SpeakerSound = GameObject.Find(objName);
-                    audioSource = SpeakerSound.GetComponent<AudioSource>();
-                    audioSource.mute = false;
-                }
-                catch
-                {
-                    ;
-                }
-                num = true;
+                Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                audioSource = Echoloop.GetComponent<AudioSource>();
+                audioSource.mute = false;
             }
+            else
+            {
+                Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                audioSource = Echoloop.GetComponent<AudioSource>();
+                audioSource.mute = true;
+            }
+        }
+        if (EchoSwitch)
+        {
+            Echoloop = GameObject.Find(nierobj.name + "/Echo");
+            audioSource = Echoloop.GetComponent<AudioSource>();
+            audioSource.mute = false;
         }
     }
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "onoffswitch")
+        nierobj = this.GetComponent<NierSP>().nier();
+        if (!photonView.IsMine)
         {
-            if (!photonView.IsMine)
-            {
-                _isStageChange = true;
-                objName = other.transform.root.gameObject.name;
-            }
+            other.gameObject.tag = "SpeakerMute";
+            Echo = GameObject.Find(other.name + "/Echo");
+            Echo.gameObject.tag = "SpeakerEchoMute";
+        }
+        if (photonView.IsMine)
+        {
+            other.gameObject.tag = "SpeakerMute";
+            EchoSwitch = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //離れたオブジェクトのタグが"Player"のとき
-        if (other.gameObject.tag == "onoffswitch")
+        nierobj = this.GetComponent<NierSP>().nier();
+        if (!photonView.IsMine)
         {
-            if (!photonView.IsMine)
-            {
-                _isStageChange = false;
-                objName = other.transform.root.gameObject.name;
-            }
+            other.gameObject.tag = "Speaker";
+            Echo = GameObject.Find(other.name + "/Echo");
+            Echo.gameObject.tag = "SpeakerEcho";
+        }
+        if (photonView.IsMine)
+        {
+            other.gameObject.tag = "Speaker";
+            EchoSwitch = true;
         }
     }
 }
