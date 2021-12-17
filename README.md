@@ -1,2 +1,3 @@
-# :earth_asia:hearingFactorsWorld2
-https://ichinolabvr.github.io/hearingFactorsWorld2/WebGL/WebGL/
+
+# :earth_asia:hearingFactorsWorld1
+https://ichinolabvr.github.io/hearingFactorsWorld1/
