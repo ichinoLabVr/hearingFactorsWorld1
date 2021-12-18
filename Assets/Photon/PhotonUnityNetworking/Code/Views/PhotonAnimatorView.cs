@@ -175,7 +175,7 @@ namespace Photon.Pun
             Debug.Log(videoPlayer.time);
             if (videoStart)
             {
-                if (videoPlayer.time > 4f)
+                if (videoPlayer.time > 130f)
                 {
                     videoPlayer.Stop();
                     audioSource.Stop();
