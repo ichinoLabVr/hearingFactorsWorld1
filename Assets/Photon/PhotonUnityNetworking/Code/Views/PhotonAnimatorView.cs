@@ -35,7 +35,9 @@ namespace Photon.Pun
         GameObject Panel;
         GameObject noize;
         GameObject[] Speaker;
+        GameObject[] SpeakerMute;
         GameObject[] SpeakerEcho;
+        GameObject[] SpeakerEchoMute;
         bool videoStart = false;
 
         AudioSource panelaudioSource;
@@ -148,7 +150,9 @@ namespace Photon.Pun
             if (photonView.IsMine)
             {
                 Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+                SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
                 SpeakerEcho = GameObject.FindGameObjectsWithTag("SpeakerEcho");
+                SpeakerEchoMute = GameObject.FindGameObjectsWithTag("SpeakerEchoMute");
                 videoPlayer = Panel.GetComponent<VideoPlayer>();
                 foreach (GameObject Speakers in Speaker)
                 {
@@ -156,9 +160,21 @@ namespace Photon.Pun
                     audioSource.time = 0f;
                     audioSource.Play();
                 }
-                foreach (GameObject SpeakerEcho in SpeakerEcho)
+                foreach (GameObject Speakers in SpeakerMute)
                 {
-                    audioSource = SpeakerEcho.GetComponent<AudioSource>();
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.time = 0f;
+                    audioSource.Play();
+                }
+                foreach (GameObject Speakers in SpeakerEcho)
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.time = 1f;
+                    audioSource.Play();
+                }
+                foreach (GameObject Speakers in SpeakerEchoMute)
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
                     audioSource.time = 1f;
                     audioSource.Play();
                 }
