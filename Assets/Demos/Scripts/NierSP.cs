@@ -12,14 +12,14 @@ public class NierSP : MonoBehaviourPunCallbacks
     public float speed;
     public Rigidbody rb;
     private GameObject[] targets;
-    GameObject[] Speaker;
     GameObject[] SpeakerMute;
+    GameObject[] Speaker;
     GameObject nierobj;
     Transform unitychanpos;
     Transform targetpos;
     Vector3 tarpos;
     Vector3 unipos;
-    GameObject[] SpeakerEcho;
+    GameObject noisecube;
     Transform tf;
     AudioSource audioSource;
     public float span = 15f;
@@ -29,7 +29,6 @@ public class NierSP : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-
     }
     public GameObject nier()
     {
@@ -68,6 +67,7 @@ public class NierSP : MonoBehaviourPunCallbacks
             targetpos = nierobj.transform;
             unipos = unitychanpos.position;
             tarpos = targetpos.position;
+
         }
 
         currentTime += Time.deltaTime;
@@ -77,33 +77,36 @@ public class NierSP : MonoBehaviourPunCallbacks
             Nierlog();
         }
 
-        Speaker = GameObject.FindGameObjectsWithTag("Speaker");
-        SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
+        if (photonView.IsMine)
+        {
+            Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+            SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
 
-        foreach (GameObject Speakers in Speaker)
-        {
-            if (Speakers.name != nierobj.name)
+            foreach (GameObject Speakers in Speaker)
             {
-                audioSource = Speakers.GetComponent<AudioSource>();
-                audioSource.mute = true;
+                if (Speakers.name == nierobj.name)
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.mute = false;
+                }
+                else
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.mute = true;
+                }
             }
-            else
+            foreach (GameObject Speakers in SpeakerMute)
             {
-                audioSource = nierobj.GetComponent<AudioSource>();
-                audioSource.mute = false;
-            }
-        }
-        foreach (GameObject Speakers in SpeakerMute)
-        {
-            if (Speakers.name != nierobj.name)
-            {
-                audioSource = Speakers.GetComponent<AudioSource>();
-                audioSource.mute = true;
-            }
-            else
-            {
-                audioSource = nierobj.GetComponent<AudioSource>();
-                audioSource.mute = false;
+                if (Speakers.name == nierobj.name)
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.mute = false;
+                }
+                else
+                {
+                    audioSource = Speakers.GetComponent<AudioSource>();
+                    audioSource.mute = true;
+                }
             }
         }
     }
