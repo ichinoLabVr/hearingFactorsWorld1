@@ -17,7 +17,7 @@ public class CreateSP : MonoBehaviourPunCallbacks
     {
         //リソースのSPを指定
         obj = (GameObject)Resources.Load("Speaker");
-        RoomNum = 2;
+        RoomNum = PhotonNetwork.CurrentRoom.PlayerCount;
         Debug.Log("現在 " + RoomNum + "名");
 
         //作成するSPの数を配列で指定
