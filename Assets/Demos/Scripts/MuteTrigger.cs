@@ -21,45 +21,48 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        nierobj = this.GetComponent<NierSP>().nier();
-        Speaker = GameObject.FindGameObjectsWithTag("Speaker");
-        SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
+        if (photonView.IsMine)
+        {
+            nierobj = this.GetComponent<NierSP>().nier();
+            Speaker = GameObject.FindGameObjectsWithTag("Speaker");
+            SpeakerMute = GameObject.FindGameObjectsWithTag("SpeakerMute");
 
-        foreach (GameObject Speakers in Speaker)
-        {
-            if (nierobj.name == Speakers.name && EchoSwitch)
+            foreach (GameObject Speakers in Speaker)
             {
-                Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                if (nierobj.name == Speakers.name && EchoSwitch)
+                {
+                    Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                    audioSource = Echoloop.GetComponent<AudioSource>();
+                    audioSource.mute = false;
+                }
+                else
+                {
+                    Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                    audioSource = Echoloop.GetComponent<AudioSource>();
+                    audioSource.mute = true;
+                }
+            }
+            foreach (GameObject Speakers in SpeakerMute)
+            {
+                if (nierobj.name == Speakers.name && EchoSwitch)
+                {
+                    Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                    audioSource = Echoloop.GetComponent<AudioSource>();
+                    audioSource.mute = false;
+                }
+                else
+                {
+                    Echoloop = GameObject.Find(Speakers.name + "/Echo");
+                    audioSource = Echoloop.GetComponent<AudioSource>();
+                    audioSource.mute = true;
+                }
+            }
+            if (EchoSwitch)
+            {
+                Echoloop = GameObject.Find(nierobj.name + "/Echo");
                 audioSource = Echoloop.GetComponent<AudioSource>();
                 audioSource.mute = false;
             }
-            else
-            {
-                Echoloop = GameObject.Find(Speakers.name + "/Echo");
-                audioSource = Echoloop.GetComponent<AudioSource>();
-                audioSource.mute = true;
-            }
-        }
-        foreach (GameObject Speakers in SpeakerMute)
-        {
-            if (nierobj.name == Speakers.name && EchoSwitch)
-            {
-                Echoloop = GameObject.Find(Speakers.name + "/Echo");
-                audioSource = Echoloop.GetComponent<AudioSource>();
-                audioSource.mute = false;
-            }
-            else
-            {
-                Echoloop = GameObject.Find(Speakers.name + "/Echo");
-                audioSource = Echoloop.GetComponent<AudioSource>();
-                audioSource.mute = true;
-            }
-        }
-        if (EchoSwitch)
-        {
-            Echoloop = GameObject.Find(nierobj.name + "/Echo");
-            audioSource = Echoloop.GetComponent<AudioSource>();
-            audioSource.mute = false;
         }
     }
 
@@ -75,7 +78,6 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
         }
         if (photonView.IsMine)
         {
-            other.gameObject.tag = "SpeakerMute";
             EchoSwitch = false;
         }
     }
@@ -91,7 +93,6 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
         }
         if (photonView.IsMine)
         {
-            other.gameObject.tag = "Speaker";
             EchoSwitch = true;
         }
     }
