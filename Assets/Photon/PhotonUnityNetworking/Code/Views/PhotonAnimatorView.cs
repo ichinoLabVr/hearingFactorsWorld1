@@ -36,6 +36,7 @@ namespace Photon.Pun
         GameObject noize;
         GameObject[] Speaker;
         GameObject[] SpeakerEcho;
+        bool videoStart = false;
 
         AudioSource panelaudioSource;
         AudioSource audioSource;
@@ -148,7 +149,7 @@ namespace Photon.Pun
             {
                 Speaker = GameObject.FindGameObjectsWithTag("Speaker");
                 SpeakerEcho = GameObject.FindGameObjectsWithTag("SpeakerEcho");
-                var videoPlayer = Panel.GetComponent<VideoPlayer>();
+                videoPlayer = Panel.GetComponent<VideoPlayer>();
                 foreach (GameObject Speakers in Speaker)
                 {
                     audioSource = Speakers.GetComponent<AudioSource>();
@@ -165,13 +166,23 @@ namespace Photon.Pun
                 //動画再生
                 videoPlayer.time = 0f;
                 videoPlayer.Play();
-
-
+                videoStart = true;
             }
         }
 
         private void Update()
         {
+            Debug.Log(videoPlayer.time);
+            if (videoStart)
+            {
+                if (videoPlayer.time > 4f)
+                {
+                    videoPlayer.Stop();
+                    audioSource.Stop();
+                    PhotonNetwork.Disconnect();
+                }
+            }
+
             if (this.m_Animator.applyRootMotion && this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             {
                 this.m_Animator.applyRootMotion = false;
