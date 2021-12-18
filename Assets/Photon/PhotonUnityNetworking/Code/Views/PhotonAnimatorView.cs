@@ -172,7 +172,6 @@ namespace Photon.Pun
 
         private void Update()
         {
-            Debug.Log(videoPlayer.time);
             if (videoStart)
             {
                 if (videoPlayer.time > 130f)
