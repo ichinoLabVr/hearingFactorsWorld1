@@ -71,7 +71,6 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag != "SpeakerMute")
         {
-            Debug.Log(other.gameObject.tag);
             nierobj = this.GetComponent<NierSP>().nier();
             if (!photonView.IsMine)
             {
