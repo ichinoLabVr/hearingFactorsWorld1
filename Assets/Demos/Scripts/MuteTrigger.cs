@@ -69,16 +69,19 @@ public class MuteTrigger : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        nierobj = this.GetComponent<NierSP>().nier();
-        if (!photonView.IsMine)
+        if (other.gameObject.tag != "SpeakerMute")
         {
-            other.gameObject.tag = "SpeakerMute";
-            Echo = GameObject.Find(other.name + "/Echo");
-            Echo.gameObject.tag = "SpeakerEchoMute";
-        }
-        if (photonView.IsMine)
-        {
-            EchoSwitch = false;
+            nierobj = this.GetComponent<NierSP>().nier();
+            if (!photonView.IsMine)
+            {
+                other.gameObject.tag = "SpeakerMute";
+                Echo = GameObject.Find(other.name + "/Echo");
+                Echo.gameObject.tag = "SpeakerEchoMute";
+            }
+            if (photonView.IsMine)
+            {
+                EchoSwitch = false;
+            }
         }
     }
 
